@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection.PortableExecutable;
 using System.Text;
 using static System.Net.Mime.MediaTypeNames;
 
@@ -20,19 +21,39 @@ namespace LogReportTool
                 while (string.IsNullOrWhiteSpace(logPath))  //入力がnullや空白なら再入力
                 {
                     Console.Write("空白以外の1文字以上で絶対パスを入力してください：");
+                    Console.WriteLine("");
                     logPath = Console.ReadLine();
                 }
                 if (logPath == "n") return; //nが入力されたらアプリ終了
                 logPath = logPath.Trim().Trim('"'); //空白とダブルクォーテーションをパスから排除
 
-                var LR = new LogReader();
+                if (!File.Exists(logPath))  //ファイルの存在確認
+                {
+                    Console.WriteLine("指定されたログファイルが存在しません。\r\n");
+                    continue;
+                }
+
+                LogReader LR = new();
                 var logs = LR.Read($"{logPath}");
                 var UIT = new UserIdTotal();
+
+                //エラー処理
+                try
+                {
+                    //var logs = LR.Read(logPath);
+                    LR = new LogReader();
+                    logs = LR.Read($"{logPath}");
+                }
+                catch (Exception)
+                {
+                    Console.WriteLine("ログの読み込み中にエラーが発生しました。\r\n");
+                    continue;
+                }
 
                 while (true)
                 {
                     Console.Write($"\r\n次の操作を該当する数字で入力してください(1.{LR.colum?.Date}のカウント /2.{LR.colum?.UserId}のカウント 3.{LR.colum?.Operation}のカウント　/4.別のファイルパス読み込み /5.アプリの終了  )：");
-                    
+
                     while (!int.TryParse(Console.ReadLine(), out num))  //数字以外が入力されるまでループ
                     {
                         Console.WriteLine("数字で入力してください\r\n");
