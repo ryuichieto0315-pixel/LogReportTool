@@ -7,22 +7,6 @@ namespace LogReportTool
 {
     internal class UserIdTotal
     {
-        //public HashSet<string> uniqueUserIds = new HashSet<string>();
-        //public List<LogEntry>? logs { get; private set; }
-        //public UserIdTotal(List<LogEntry> logPath)
-        //{
-        //LogReader LR = new LogReader();
-        //logs = LR.LogRead(logPath);
-        //if (uniqueIds != null) return;
-        //foreach (var it in logPath)  //ログをハッシュに詰めることでユニークなもののみ残る
-        //{
-        //    //if (uniqueIds.Any(x => x != it.UserId))
-        //    //{
-        //    uniqueUserIds.Add(it.UserId);
-        //    //}
-        //}
-
-        //}
         //ユーザーIDとその数をdictionary型で返すメソッド
         public Dictionary<string, int> UserIdCount(List<LogEntry> logPath, int columNum)
         {
@@ -47,25 +31,6 @@ namespace LogReportTool
 
             else
             { 
-                //if (uniqueUserIds == null) return countNum;
-
-                //foreach(var it in uniqueUserIds)
-                //{
-                //    countNum.Add(it, 0);
-                //}
-
-                //foreach (var it in logPath)
-                //{
-                //    string userId = it.UserId;
-                //    if (countNum.ContainsKey(userId))
-                //    {
-                //        countNum[userId]++;
-                //    }
-                //    else
-                //    {
-                //        countNum[userId] = 1;
-                //    }
-                //}
                 foreach (var it in logPath)
                 {
                     if (!countNum.ContainsKey(it.Operation)) countNum[it.Operation] = 0;    //キーが存在しない場合追加する
